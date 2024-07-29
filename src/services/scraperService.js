@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium'
 import { stores } from '../models/storeModel.js';
 import { autoScroll } from '../utils/autoScroll.js';
 
@@ -25,8 +26,11 @@ export const getPricesForProduct = async (searchName) => {
   const getInformationProduct = async (store) => {
     const { link, classPriceCurrent, className, cardProduct, classImage, linkProduct } = store;
     const browser = await puppeteer.launch({
-      executablePath: '/path/to/Chrome',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
 

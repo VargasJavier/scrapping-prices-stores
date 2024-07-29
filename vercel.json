@@ -6,15 +6,10 @@
       "destination": "/api" 
     }
   ],
-  "build": {
-    "env": {
-      "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium-browser"
-    }
-  },
   "functions": {
     "api/*.js": {
       "memory": 1024,
       "maxDuration": 10
     }
-  } 
+  }
 }

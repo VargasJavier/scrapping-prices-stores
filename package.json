@@ -18,5 +18,8 @@
     "express": "^4.19.2",
     "puppeteer": "^22.14.0",
     "puppeteer-core": "^22.14.0"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "^126.0.0"
   }
 }
