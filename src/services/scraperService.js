@@ -20,7 +20,6 @@ export const getPricesForProduct = async (searchName) => {
   const getInformationProduct = async (store) => {
     const { link, classPriceCurrent, className, cardProduct, classImage, linkProduct } = store;
     const browser = await puppeteer.launch({
-      headless: false,
       defaultViewport: null
     });
     const page = await browser.newPage();
