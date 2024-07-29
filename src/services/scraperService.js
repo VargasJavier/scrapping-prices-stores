@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import chromium from "chrome-aws-lambda";
 import { stores } from '../models/storeModel.js';
 import { autoScroll } from '../utils/autoScroll.js';
 
@@ -20,7 +21,10 @@ export const getPricesForProduct = async (searchName) => {
   const getInformationProduct = async (store) => {
     const { link, classPriceCurrent, className, cardProduct, classImage, linkProduct } = store;
     const browser = await puppeteer.launch({
-      defaultViewport: null
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
     });
     const page = await browser.newPage();
 
