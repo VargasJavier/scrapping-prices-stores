@@ -6,7 +6,7 @@ import { autoScroll } from '../utils/autoScroll.js';
 export const getPricesForProduct = async (searchName) => {
   const getSearchSlug = (searchName) => {
     try {
-      const $searchSlug = searchName.toLocaleLowerCase();
+      const $searchSlug = searchName.trim().toLocaleLowerCase();
       return stores.map((store) => {
         const searchTermPath = $searchSlug.replaceAll(" ", store.replaceSpace);
         const searchPath = store.searchPath.replaceAll("searchSlug", searchTermPath);
@@ -35,7 +35,7 @@ export const getPricesForProduct = async (searchName) => {
     const page = await browser.newPage();
 
     try {
-      await page.goto(link);
+      await page.goto(link, { waitUntil: 'networkidle2', timeout: 60000 });
       await autoScroll(page);
 
       const result = await page.evaluate(
@@ -69,7 +69,7 @@ export const getPricesForProduct = async (searchName) => {
         results: []
       };
     } finally {
-      await browser.close();
+      if (browser) await browser.close();
     }
   };
 
