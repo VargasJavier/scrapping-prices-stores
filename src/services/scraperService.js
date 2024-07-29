@@ -1,30 +1,31 @@
 import puppeteer from 'puppeteer';
-import chromium from "chrome-aws-lambda";
 import { stores } from '../models/storeModel.js';
 import { autoScroll } from '../utils/autoScroll.js';
 
 export const getPricesForProduct = async (searchName) => {
   const getSearchSlug = (searchName) => {
-    const $searchSlug = searchName.toLocaleLowerCase();
-    return stores.map((store) => {
-      const searchTermPath = $searchSlug.replaceAll(" ", store.replaceSpace);
-      const searchPath = store.searchPath.replaceAll("searchSlug", searchTermPath);
-      const link = store.baseUrl + searchPath;
-      return {
-        name: store.storeName,
-        link: link,
-        ...store
-      };
-    });
+    try {
+      const $searchSlug = searchName.toLocaleLowerCase();
+      return stores.map((store) => {
+        const searchTermPath = $searchSlug.replaceAll(" ", store.replaceSpace);
+        const searchPath = store.searchPath.replaceAll("searchSlug", searchTermPath);
+        const link = store.baseUrl + searchPath;
+        return {
+          name: store.storeName,
+          link: link,
+          ...store
+        };
+      });
+    } catch (err) {
+      console.error(err)
+      return {}
+    }
   };
 
   const getInformationProduct = async (store) => {
     const { link, classPriceCurrent, className, cardProduct, classImage, linkProduct } = store;
     const browser = await puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      headless: true,
     });
     const page = await browser.newPage();
 
