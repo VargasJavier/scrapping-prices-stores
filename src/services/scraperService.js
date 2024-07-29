@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import { stores } from '../models/storeModel.js';
 import { autoScroll } from '../utils/autoScroll.js';
 
@@ -25,7 +25,8 @@ export const getPricesForProduct = async (searchName) => {
   const getInformationProduct = async (store) => {
     const { link, classPriceCurrent, className, cardProduct, classImage, linkProduct } = store;
     const browser = await puppeteer.launch({
-      headless: true,
+      executablePath: '/path/to/Chrome',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
     const page = await browser.newPage();
 
